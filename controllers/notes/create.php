@@ -1,20 +1,18 @@
 <?php
 
-require "Validator.php";
+use Core\Database;
+use Core\Validator;
 
 $db = new Database(config('database'));
 
-$heading = 'Create Note';
+$errors  = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $errors  = [];
-
-    $validator = new Validator();
 
     $body = $_POST['body'];
 
     if (
-        ! $validator->string($_POST['body'], 1, 400)
+        ! Validator::validateString($_POST['body'], 1, 400)
     ) {
         $errors['body'] = 'Body of no more than 400 characters is required';
     }
@@ -27,4 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
 }
 
-require('views/notes-create.view.php');
+view('notes/create.view.php',[
+    'errors' => $errors,
+    'heading' => 'Create Note'
+]);

@@ -1,5 +1,7 @@
 <?php
 
+use Core\Response;
+
 $routes = require('web.php');
 
 $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
