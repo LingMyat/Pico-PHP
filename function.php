@@ -19,6 +19,15 @@ function config($key = '') {
     return $key? $config[$key] : $config;
 }
 
+function abort($status = Response::NOT_FOUND) {
+
+    http_response_code($status);
+    
+    require base_path("views/errors/{$status}.view.php");
+
+    die();
+}
+
 function authorize($condition, $status = Response::FORBIDDEN) {
     if(!$condition) abort($status);
 }
@@ -36,4 +45,5 @@ function view($path, $data = [])
 
 function redirect($url) {
     header("Location: $url");
+    die();
 }

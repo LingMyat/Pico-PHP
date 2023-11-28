@@ -11,9 +11,17 @@ spl_autoload_register(function ($class) {
     require base_path("{$class}.php");
 });
 
-require base_path('router.php');
+require base_path('bootstrap.php');
 
+// \Core\App::bind('Core\Validator', fn() => new \Core\Validator());
 
-// dd($db->query("SELECT * FROM notes")->get());
+$router = new \Core\Router();
+
+$routes = require base_path('web.php');
+
+$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+$method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
+
+$router->route($uri, $method);
 
 
